@@ -1,8 +1,4 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import React from 'react'
+import { Products } from '@/components/Products'
 
-export default function Home() {
-  return (
-    <h1>My Project</h1>
-  );
-}
+export default Products;
