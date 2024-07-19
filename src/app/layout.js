@@ -2,23 +2,22 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { appStore } from "@/redux/appStore/appStore";
-import { Provider } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 import { AppContextProvider } from "@/context/appContext";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 const inter = Inter({ subsets: ["latin"] });
-
+import { LayoutWarpper } from "./layoutWarpper";
 
 
 export default function RootLayout({ children }) {
+
   return (
     <html lang="en">
       <body className={inter.className}>
         <Provider store={appStore}>
           <AppContextProvider>
-            <Header />
-            {children}
-            <Footer />
+            <LayoutWarpper >
+              {children}
+            </LayoutWarpper>
           </AppContextProvider>
         </Provider>
       </body>
