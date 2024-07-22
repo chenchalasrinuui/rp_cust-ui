@@ -9,6 +9,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 import { useDispatch } from 'react-redux'
+import Link from 'next/link'
 export const Products = () => {
     const dispatch = useDispatch()
     const [productsList, setProductsList] = useState([])
@@ -43,25 +44,27 @@ export const Products = () => {
             <Search handleSearch={handleSearch} />
             <div className={styles.productsList}>
                 {
-                    serachProduct?.length > 0 ? serachProduct?.map(({ name, cost, path }, index) => {
-                        return <Card className="product-card" sx={{ width: 200 }}>
-                            <CardActionArea>
-                                <CardMedia
-                                    component="img"
-                                    image={`${VENDOR_BASE_URL}${path}`}
-                                    alt="green iguana"
+                    serachProduct?.length > 0 ? serachProduct?.map(({ name, cost, path, _id }, index) => {
+                        return <Link href={`/product-view/${_id}`}>
+                            <Card className="product-card" sx={{ width: 200 }}>
+                                <CardActionArea>
+                                    <CardMedia
+                                        component="img"
+                                        image={`${VENDOR_BASE_URL}${path}`}
+                                        alt="green iguana"
 
-                                />
-                                <CardContent>
-                                    <Typography gutterBottom variant="h5" component="div">
-                                        {name}
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                        cost: {cost}
-                                    </Typography>
-                                </CardContent>
-                            </CardActionArea>
-                        </Card>
+                                    />
+                                    <CardContent>
+                                        <Typography gutterBottom variant="h5" component="div">
+                                            {name}
+                                        </Typography>
+                                        <Typography variant="body2" color="text.secondary">
+                                            cost: {cost}
+                                        </Typography>
+                                    </CardContent>
+                                </CardActionArea>
+                            </Card>
+                        </Link>
                     })
                         :
                         <h1>No  Products Found.</h1>

@@ -4,6 +4,16 @@ body {
   margin: 0px
 }
 
-.product-card>button {
+
+
+.product-card {
   height: 100%;
+}
+
+.product-card button {
+  height: 100%;
+}
+
+.float-start {
+  float: left;
 }
