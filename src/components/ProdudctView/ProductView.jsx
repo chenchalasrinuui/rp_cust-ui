@@ -3,13 +3,16 @@ import React, { useEffect, useState } from 'react'
 import styles from './ProductView.module.css'
 import { Ajax, VENDOR_BASE_URL } from '@/services/ajax'
 import { useDispatch } from 'react-redux'
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import { CardActionArea } from '@mui/material';
+import { Grid } from '@mui/material'
+import Image from 'next/image'
+import Button from '@mui/material/Button';
+import { AppCookie } from '@/services/cookies'
+import { usePathname } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
 export const ProductView = (props) => {
+    const pathName = usePathname();
+    const router = useRouter();
     const [product, setProduct] = useState({})
     const { id } = props?.params
     const dispatch = useDispatch();
@@ -29,26 +32,28 @@ export const ProductView = (props) => {
     useEffect(() => {
         getProductDetails();
     }, [])
-    return (
-        <div>
-            <Card className="product-card" sx={{ width: 200 }}>
-                <CardActionArea>
-                    <CardMedia
-                        component="img"
-                        image={`${VENDOR_BASE_URL}${product?.path}`}
-                        alt="green iguana"
 
-                    />
-                    <CardContent>
-                        <Typography gutterBottom variant="h5" component="div">
-                            {product?.name}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                            cost: {product?.cost}
-                        </Typography>
-                    </CardContent>
-                </CardActionArea>
-            </Card>
-        </div>
+    const handleBuyNow = async () => {
+        const res = await AppCookie.isLoggedIn()
+        if (!res) {
+            sessionStorage.pathNmae = pathName;
+            router.push('/login')
+        }
+    }
+    const handleAddToCart = () => {
+
+    }
+    return (
+        <Grid container spacing={2}>
+            <Grid item xs={6}>
+                {product?.path && <Image src={`${VENDOR_BASE_URL}${product?.path}`} alt="product image" width="500" height="500" />}
+            </Grid>
+            <Grid item xs={6}>
+                <h1>Product Name:{product?.name}</h1>
+                <h3>Product Cost: {product?.cost}</h3>
+                <Button onClick={handleBuyNow} variant="contained" size="large">Buy Now</Button>
+                <Button onClick={handleAddToCart} variant="outlined" size="large">Add to Cart</Button>
+            </Grid>
+        </Grid>
     )
 }

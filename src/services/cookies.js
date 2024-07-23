@@ -1,4 +1,4 @@
-class AppCookie {
+export class AppCookie {
     static getDate(days) {
         const dateObj = new Date();
         dateObj.setDate(dateObj.getDate() + days);
@@ -25,5 +25,10 @@ class AppCookie {
 
     static async deleteCookie(key) {
         await cookieStore.delete(key)
+    }
+
+    static async isLoggedIn(key) {
+        const cookieObj = await cookieStore.get("token")
+        return cookieObj?.value ? true : false
     }
 }
