@@ -3,23 +3,32 @@ import React, { useState } from 'react'
 import config from './configuration.json'
 import Input from '../reusableComponents/inputControls/Input'
 import Button from '../reusableComponents/inputControls/Button'
-import { fieldLevelValidation, formLevelValidation } from '@/services/validations'
-import { AppCookie } from '@/services/cookies'
-import { useAppCtx as useAppContext } from '@/context/appContext'
+import { fieldLevelValidation, formLevelValidation, clearFormData } from '@/services/validations'
 import Link from 'next/link'
+import { Ajax } from '@/services/ajax'
+import { useDispatch } from 'react-redux'
+
 export const Register = () => {
     const [formControls, setFormControls] = useState(config)
-    const { dispatch } = useAppContext();
+    const dispatch = useDispatch();
     const handleClick = async () => {
         try {
             const [isFormValid, dataObj] = formLevelValidation(formControls, setFormControls)
             if (!isFormValid) return;
+            dispatch({ type: "LOADER", payload: true })
+            const res = await Ajax.sendPostReq("cust/register", { data: dataObj });
+            const { acknowledged, insertedId } = res?.data;
+            if (acknowledged && insertedId) {
+                alert('success')
+                clearFormData(formControls, setFormControls);
+            } else {
 
+            }
 
         } catch (ex) {
             console.error("Login.tsx", ex)
         } finally {
-
+            dispatch({ type: "LOADER", payload: false })
         }
     }
 

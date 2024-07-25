@@ -19,8 +19,8 @@ export const Products = () => {
             dispatch({ type: "LOADER", payload: true })
             const res = await Ajax.sendGetReq("cust/getProducts")
             console.log(res);
-            setProductsList(res.data);
-            setSearchProducts(res.data);
+            setProductsList(res?.data);
+            setSearchProducts(res?.data);
         } catch (ex) {
             console.error(ex)
             setProductsList([])
@@ -30,7 +30,7 @@ export const Products = () => {
         }
     }
     useEffect(() => {
-        fnGetProducts();
+        // fnGetProducts();
     }, [])
 
     const handleSearch = (eve) => {

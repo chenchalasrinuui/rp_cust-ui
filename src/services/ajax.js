@@ -1,27 +1,40 @@
 import axios from "axios";
+import { AppCookie } from "./cookies";
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
+export const VENDOR_BASE_URL = process.env.NEXT_PUBLIC_VENDOR_BASE_URL
 
 
+axios.interceptors.request.use(
+    async (req) => {
+        // const token = await AppCookie.getCookie("token")
+        console.log("req called", req)
+    },
+    (error) => {
+        console.error("req", error)
+    }
+)
 
+axios.interceptors.response.use(
+    (res) => {
+        console.log('res called', res)
+    },
+    (error) => {
+        console.error('res', error)
+    }
+)
 export class Ajax {
-    static sendGetReq(url) {
-        return Ajax.sendReq(url, 'get')
+    static async sendGetReq(url) {
+        return axios.get(BASE_URL + url)
     }
     static sendPostReq(url, data) {
-        return Ajax.sendReq(url, 'post', data)
+        return axios.post(BASE_URL + url, data)
     }
     static sendDeleteReq(url) {
-        return Ajax.sendReq(url, 'delete')
+        return axios.delete(BASE_URL + url, data)
     }
     static sendPutReq(url, data) {
-        return Ajax.sendReq(url, 'put', data)
+        return axios.put(BASE_URL + url, data)
     }
-    static async sendReq(url, method, data) {
-        const response = await fetch(url, {
-            method,
-            body: data
-        })
-        const result = await response.json()
-        return result;
-    }
+
 
 }

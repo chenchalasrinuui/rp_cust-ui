@@ -4,22 +4,37 @@ import config from './configuration.json'
 import Input from '../reusableComponents/inputControls/Input'
 import Button from '../reusableComponents/inputControls/Button'
 import { fieldLevelValidation, formLevelValidation } from '@/services/validations'
-import { AppCookie } from '@/services/cookies'
-import { useAppCtx as useAppContext } from '@/context/appContext'
+import { useDispatch } from 'react-redux'
 import Link from 'next/link'
+import { Ajax } from '@/services/ajax'
+import { useRouter } from 'next/navigation'
+import { AppCookie } from '@/services/cookies'
 export const Login = () => {
     const [formControls, setFormControls] = useState(config)
-    const { dispatch } = useAppContext();
+    const dispatch = useDispatch();
+    const router = useRouter();
     const handleClick = async () => {
         try {
             const [isFormValid, dataObj] = formLevelValidation(formControls, setFormControls)
             if (!isFormValid) return;
-
+            dispatch({ type: "LOADER", payload: true })
+            const res = await Ajax.sendPostReq("cust/login", { data: dataObj });
+            const { token, _id, uid } = res?.data?.data
+            if (token) {
+                alert('success');
+                AppCookie.setCookies("token", token);
+                AppCookie.setCookies("id", _id);
+                AppCookie.setCookies("uid", uid);
+                if (sessionStorage.pathName) {
+                    router.push(sessionStorage.pathName)
+                    sessionStorage.pathName = "";
+                }
+            }
 
         } catch (ex) {
             console.error("Login.tsx", ex)
         } finally {
-
+            dispatch({ type: "LOADER", payload: false })
         }
     }
 

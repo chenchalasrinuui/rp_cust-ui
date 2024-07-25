@@ -5,7 +5,7 @@ import { Footer } from '@/components/Footer';
 import { Loader } from '@/components/reusableComponents/Loader';
 
 export const LayoutWarpper = ({ children }) => {
-    const store = useSelector((state) => state);
+    const isShowLoader = useSelector(state => state.isShowLoader);
     return (
         <html lang="en">
             <body>
@@ -13,7 +13,7 @@ export const LayoutWarpper = ({ children }) => {
                 <Header />
                 {children}
                 <Footer />
-                {store?.appRedcuer?.isShowLoader && <Loader />}
+                {isShowLoader && <Loader />}
             </body>
         </html>
     );

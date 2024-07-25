@@ -32,16 +32,28 @@ export const ProductView = (props) => {
     useEffect(() => {
         getProductDetails();
     }, [])
-
-    const handleBuyNow = async () => {
+    const checkAuth = async () => {
         const res = await AppCookie.isLoggedIn()
         if (!res) {
-            sessionStorage.pathNmae = pathName;
+            sessionStorage.pathName = pathName;
             router.push('/login')
         }
     }
-    const handleAddToCart = () => {
+    const handleBuyNow = async () => {
+        checkAuth();
+    }
+    const handleAddToCart = async () => {
+        try {
+            checkAuth();
+            const id = await AppCookie.getCookie("id")
+            const dataObj = { productId: product._id, uid: id }
+            const res = await Ajax.sendPostReq('cust/saveToCart', dataObj)
+            console.log(res);
+        } catch (ex) {
 
+        } finally {
+
+        }
     }
     return (
         <Grid container spacing={2}>
