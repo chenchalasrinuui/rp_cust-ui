@@ -8,7 +8,6 @@ import { AppContextProvider } from "@/context/appContext";
 const inter = Inter({ subsets: ["latin"] });
 import { LayoutWarpper } from "./layoutWarpper";
 
-
 export default function RootLayout({ children }) {
 
   return (

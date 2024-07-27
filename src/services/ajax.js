@@ -4,24 +4,28 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 export const VENDOR_BASE_URL = process.env.NEXT_PUBLIC_VENDOR_BASE_URL
 
 
-axios.interceptors.request.use(
-    async (req) => {
-        // const token = await AppCookie.getCookie("token")
-        console.log("req called", req)
-    },
-    (error) => {
-        console.error("req", error)
-    }
-)
 
-axios.interceptors.response.use(
-    (res) => {
-        console.log('res called', res)
-    },
-    (error) => {
-        console.error('res', error)
+
+axios.interceptors.request.use(config => {
+
+    const authToken = sessionStorage.getItem("token")
+    if (authToken) {
+        config.headers.Authorization = ` ${authToken}`;
+
     }
-)
+
+    return config;
+
+});
+
+// axios.interceptors.response.use(
+//     (res) => {
+//         console.log('res called', res)
+//     },
+//     (error) => {
+//         console.error('res', error)
+//     }
+// )
 export class Ajax {
     static async sendGetReq(url) {
         return axios.get(BASE_URL + url)

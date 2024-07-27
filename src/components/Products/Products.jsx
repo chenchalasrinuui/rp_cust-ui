@@ -30,7 +30,7 @@ export const Products = () => {
         }
     }
     useEffect(() => {
-        // fnGetProducts();
+        fnGetProducts();
     }, [])
 
     const handleSearch = (eve) => {
@@ -45,7 +45,7 @@ export const Products = () => {
             <div className={styles.productsList}>
                 {
                     serachProduct?.length > 0 ? serachProduct?.map(({ name, cost, path, _id }, index) => {
-                        return <Link href={`/product-view/${_id}`}>
+                        return <Link key={_id} href={`/product-view/${_id}`}>
                             <Card className="product-card" sx={{ width: 200 }}>
                                 <CardActionArea>
                                     <CardMedia

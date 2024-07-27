@@ -47,8 +47,7 @@ export const ProductView = (props) => {
             checkAuth();
             const id = await AppCookie.getCookie("id")
             const dataObj = { productId: product._id, uid: id }
-            const res = await Ajax.sendPostReq('cust/saveToCart', dataObj)
-            console.log(res);
+            const res = await Ajax.sendPostReq('cust/saveToCart', { data: dataObj })
         } catch (ex) {
 
         } finally {

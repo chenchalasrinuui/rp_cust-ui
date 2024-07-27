@@ -1,4 +1,5 @@
 export class AppCookie {
+
     static getDate(days) {
         const dateObj = new Date();
         dateObj.setDate(dateObj.getDate() + days);
@@ -6,7 +7,7 @@ export class AppCookie {
     }
     static async getCookie(key) {
         const cookieObj = await cookieStore.get(key)
-        return cookieObj.value;
+        return cookieObj?.value;
     }
 
     static async getAllCookies() {
@@ -26,6 +27,15 @@ export class AppCookie {
     static async deleteCookie(key) {
         await cookieStore.delete(key)
     }
+
+    static async clear() {
+        const cookies = await cookieStore.getAll();
+        cookies.forEach(async ({ name }) => {
+            await cookieStore.delete(name)
+        })
+    }
+
+
 
     static async isLoggedIn(key) {
         const cookieObj = await cookieStore.get("token")

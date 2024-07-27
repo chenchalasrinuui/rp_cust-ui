@@ -9,6 +9,7 @@ import Link from 'next/link'
 import { Ajax } from '@/services/ajax'
 import { useRouter } from 'next/navigation'
 import { AppCookie } from '@/services/cookies'
+
 export const Login = () => {
     const [formControls, setFormControls] = useState(config)
     const dispatch = useDispatch();
@@ -21,18 +22,22 @@ export const Login = () => {
             const res = await Ajax.sendPostReq("cust/login", { data: dataObj });
             const { token, _id, uid } = res?.data?.data
             if (token) {
-                alert('success');
+                sessionStorage.setItem("token", token)
                 AppCookie.setCookies("token", token);
                 AppCookie.setCookies("id", _id);
                 AppCookie.setCookies("uid", uid);
+                dispatch({ type: "AUTH", payload: { isLoggedIn: true, uid } })
                 if (sessionStorage.pathName) {
                     router.push(sessionStorage.pathName)
                     sessionStorage.pathName = "";
+                } else {
+                    router.push('/')
                 }
             }
 
         } catch (ex) {
             console.error("Login.tsx", ex)
+            dispatch({ type: "AUTH", payload: { isLoggedIn: false, uid: '' } })
         } finally {
             dispatch({ type: "LOADER", payload: false })
         }
