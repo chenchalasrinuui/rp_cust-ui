@@ -10,10 +10,9 @@ import { deepOrange, deepPurple } from '@mui/material/colors';
 import { Menu } from '../Menu/Menu';
 export const Header = () => {
     const dispatch = useDispatch();
-    const { isLoggedIn, uid, isShowMenu } = useSelector((state) => {
-        const { isLoggedIn, uid, isShowMenu } = state.appReducer
-        return { isLoggedIn, uid, isShowMenu }
-    })
+    const isLoggedIn = useSelector((state) => state?.appReducer.isLoggedIn)
+    const isShowMenu = useSelector((state) => state?.appReducer.isShowMenu)
+    const uid = useSelector((state) => state?.appReducer.uid)
     const handleClick = () => {
         dispatch({ type: "MENU", payload: !isShowMenu })
     }

@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react'
 import styles from './Toaster.module.css'
-import { useAppContext } from '@/statemanagement/appContext';
-
+import { useSelector, useDispatch } from 'react-redux'
 export const Toaster = () => {
     const [count, setCount] = useState(0)
-    const { state, dispatch }: any = useAppContext();
-    const { toasterMessage, toasterBG } = state;
-    const intervalref: any = useRef()
+    const dispatch = useDispatch();
+    const { toasterMessage, toasterBG } = useSelector((state) => {
+        return state?.appReducer?.toaster
+    })
+    const intervalref = useRef()
     useEffect(() => {
         intervalref.current = setInterval(() => {
             setCount((prev) => {

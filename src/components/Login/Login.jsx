@@ -33,6 +33,14 @@ export const Login = () => {
                 } else {
                     router.push('/')
                 }
+            } else {
+                dispatch({
+                    type: "TOASTER", payload: {
+                        isShowToaster: true,
+                        toasterMessage: "Please Checked Entered Uid or Pwd",
+                        toasterBG: 'red'
+                    }
+                })
             }
 
         } catch (ex) {
