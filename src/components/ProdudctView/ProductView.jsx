@@ -9,6 +9,7 @@ import Button from '@mui/material/Button';
 import { AppCookie } from '@/services/cookies'
 import { usePathname } from 'next/navigation'
 import { useRouter } from 'next/navigation'
+import { handleToaster } from '@/services/functions'
 
 export const ProductView = (props) => {
     const pathName = usePathname();
@@ -45,13 +46,21 @@ export const ProductView = (props) => {
     const handleAddToCart = async () => {
         try {
             checkAuth();
+            dispatch({ type: "LOADER", payload: true })
             const id = await AppCookie.getCookie("id")
             const dataObj = { productId: product._id, uid: id }
             const res = await Ajax.sendPostReq('cust/saveToCart', { data: dataObj })
+            const { acknowledged, insertedId, message } = res.data;
+            if (acknowledged && insertedId) {
+                handleToaster(dispatch, 'Added to the cart', 'green')
+                router.push('/cart')
+            } else {
+                handleToaster(dispatch, message, 'red')
+            }
         } catch (ex) {
-
+            handleToaster(dispatch, ex.message, 'red')
         } finally {
-
+            dispatch({ type: "LOADER", payload: false })
         }
     }
     return (

@@ -35,9 +35,10 @@ export const Toaster = () => {
     }
     return (
         <div className={styles.appToaster}>
-            <span className='ms-1'>{toasterMessage}</span>
-            <b onClick={fnHideToaster}>X</b>
-
+            <div style={{ height: '50px' }}>
+                <span className='ms-1'>{toasterMessage}</span>
+                <b onClick={fnHideToaster}>X</b>
+            </div>
             <div style={{ width: count, background: toasterBG }}></div>
         </div>
     )

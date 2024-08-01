@@ -3,18 +3,18 @@
     top: 0;
     right: 0;
     border-radius: 10px 0px 0px 0px;
-    height: 60px;
+    min-height: 60px;
     width: 300px;
     background: white;
     border: 1px solid black;
     padding-right: 30px;
 }
 
-.appToaster>span {
+.appToaster span {
     max-width: 270px;
 }
 
-.appToaster>b {
+.appToaster b {
     cursor: pointer;
     position: absolute;
     right: 15px;
