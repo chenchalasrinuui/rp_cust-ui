@@ -33,19 +33,25 @@ export const ProductView = (props) => {
     useEffect(() => {
         getProductDetails();
     }, [])
-    const checkAuth = async () => {
-        const res = await AppCookie.isLoggedIn()
-        if (!res) {
+    const fnIsLoggedIn = () => {
+        debugger;
+        const token = sessionStorage.token
+        if (!token) {
             sessionStorage.pathName = pathName;
-            router.push('/login')
+            return false
         }
+        return true
     }
     const handleBuyNow = async () => {
-        checkAuth();
+        fnIsLoggedIn();
     }
     const handleAddToCart = async () => {
+        debugger;
         try {
-            checkAuth();
+            if (!fnIsLoggedIn()) {
+                router.push('/login');
+                return;
+            }
             dispatch({ type: "LOADER", payload: true })
             const id = await AppCookie.getCookie("id")
             const dataObj = { productId: product._id, uid: id }

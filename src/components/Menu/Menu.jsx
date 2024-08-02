@@ -20,7 +20,7 @@ export const Menu = () => {
         <div className={styles.menu}>
             {
                 config?.map(({ path, label, id }) => {
-                    return <Link onClick={hanldeMenuClick} id={id} href={path}>{label}</Link>
+                    return <Link key={id} onClick={hanldeMenuClick} id={id} href={`/${path}`}>{label}</Link>
                 })
             }
         </div>
