@@ -34,7 +34,6 @@ export const ProductView = (props) => {
         getProductDetails();
     }, [])
     const fnIsLoggedIn = () => {
-        debugger;
         const token = sessionStorage.token
         if (!token) {
             sessionStorage.pathName = pathName;
@@ -43,10 +42,20 @@ export const ProductView = (props) => {
         return true
     }
     const handleBuyNow = async () => {
-        fnIsLoggedIn();
+        try {
+            if (!fnIsLoggedIn()) {
+                router.push('/login');
+                return;
+            }
+            router.push(`/buy-now/${id}`)
+
+        } catch (ex) {
+
+        } finally {
+
+        }
     }
     const handleAddToCart = async () => {
-        debugger;
         try {
             if (!fnIsLoggedIn()) {
                 router.push('/login');
