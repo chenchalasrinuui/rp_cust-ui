@@ -12,6 +12,11 @@ const nextConfig = {
                 hostname: 'localhost',
                 pathname: '**',
             },
+            {
+                protocol: 'https',
+                hostname: 'rp-vendor-server.vercel.app',
+                pathname: '**',
+            },
         ],
     },
 };

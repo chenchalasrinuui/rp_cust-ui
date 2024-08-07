@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Avatar from '@mui/material/Avatar';
 import { deepOrange, deepPurple } from '@mui/material/colors';
 import { Menu } from '../Menu/Menu';
+import { CartButton } from '../CartButton/CartButton';
 export const Header = () => {
     const dispatch = useDispatch();
     const isLoggedIn = useSelector((state) => state?.appReducer.isLoggedIn)
@@ -26,6 +27,7 @@ export const Header = () => {
                     </Link>
                     Customer Portal
                     {isLoggedIn ? <>
+                        <CartButton />
                         <Avatar onClick={handleClick} sx={{ cursor: 'pointer', bgcolor: deepOrange[500], position: 'absolute', top: '40px', right: '20px' }}>{uid?.slice(0, 1)}</Avatar>
                         {isShowMenu && <Menu />}
                     </>

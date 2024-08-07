@@ -1,4 +1,4 @@
-
+import { VENDOR_BASE_URL } from "./ajax";
 const regExpvaidations: any = {
     "REQUIRED": {
         pattern: /./,
@@ -119,7 +119,7 @@ export function setDataToForm(formControls: any, setFormControls: any, data: any
             }
         }
         if (obj.type === 'file') {
-            obj.src = "http://localhost:4000" + data['path'] + "?" + new Date().getTime();
+            obj.src = VENDOR_BASE_URL + data['path'] + "?" + new Date().getTime();
             obj.value = data['path']
         } else {
             obj.value = data[obj.name]
