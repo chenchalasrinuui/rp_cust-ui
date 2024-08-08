@@ -65,9 +65,11 @@ export const ProductView = (props) => {
             const id = await AppCookie.getCookie("id")
             const dataObj = { productId: product._id, uid: id }
             const res = await Ajax.sendPostReq('cust/saveToCart', { data: dataObj })
-            const { acknowledged, insertedId, message } = res.data;
+            const { acknowledged, insertedId, message, count } = res.data;
             if (acknowledged && insertedId) {
                 handleToaster(dispatch, 'Added to the cart', 'green')
+                sessionStorage.cartCount = count;
+                dispatch({ type: "AUTH", payload: { cartCount: count } })
                 router.push('/cart')
             } else {
                 handleToaster(dispatch, message, 'red')

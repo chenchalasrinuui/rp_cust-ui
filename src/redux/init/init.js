@@ -3,6 +3,7 @@ export const init = {
     isShowLoader: false,
     uid: '',
     isShowMenu: false,
+    cartCount: 0,
     toaster: {}
 
 }
