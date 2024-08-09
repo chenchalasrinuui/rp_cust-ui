@@ -6,7 +6,7 @@ import Image from 'next/image';
 
 const AppTable = (props) => {
 
-    const { hasImage, imageHeaders, imageColumns, headers, data, columns, isShowDelete, isShowEdit, handleDelete, handleEdit } = props;
+    const { hasImage, imageHeaders, imageColumns, headers, data, columns, isShowDelete, isShowEdit, isShowBuyNow, handleBuyNow, handleDelete, handleEdit } = props;
 
     const [pageNo, setPageNo] = useState(1)
     const [currData, setCurrData] = useState([])
@@ -38,6 +38,8 @@ const AppTable = (props) => {
                         }
                         {isShowEdit && <th>Edit</th>}
                         {isShowDelete && <th>Delete</th>}
+                        {isShowBuyNow && <th>Buy Now</th>}
+
                     </tr>
                 </thead>
                 <tbody>
@@ -57,6 +59,7 @@ const AppTable = (props) => {
                                 }
                                 {isShowEdit && <td><i onClick={() => handleEdit(obj)} className="bi bi-pencil-fill"></i></td>}
                                 {isShowDelete && <td><i onClick={() => handleDelete(obj)} className="bi bi-trash-fill"></i></td>}
+                                {isShowBuyNow && <td><button onClick={() => handleBuyNow(obj)}>Buy Now</button></td>}
                             </tr>
                         })
                         :

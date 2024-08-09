@@ -2,6 +2,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import { appStore } from "@/redux/appStore/appStore";
 import { Provider } from "react-redux";
 import { AppContextProvider } from "@/context/appContext";

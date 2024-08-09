@@ -34,11 +34,9 @@ export class Ajax {
         return axios.post(BASE_URL + url, data)
     }
     static sendDeleteReq(url) {
-        return axios.delete(BASE_URL + url, data)
+        return axios.delete(BASE_URL + url)
     }
     static sendPutReq(url, data) {
         return axios.put(BASE_URL + url, data)
     }
-
-
 }
