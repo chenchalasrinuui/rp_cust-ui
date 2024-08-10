@@ -5,9 +5,13 @@ import { AppCookie } from '@/services/cookies'
 import { useDispatch } from 'react-redux'
 import { AppTable } from '../reusableComponents/AppTable'
 import { handleToaster } from '@/services/functions'
+import { useRouter } from 'next/navigation'
+
 export const Cart = () => {
     const [cartItems, setCartItems] = useState([])
     const dispatch = useDispatch();
+    const router = useRouter();
+
     const getCartItems = async () => {
         dispatch({ type: "LOADER", payload: true })
         const id = await AppCookie.getCookie("id")
@@ -43,6 +47,14 @@ export const Cart = () => {
 
     const handleBuyNow = useCallback((obj) => {
         console.log('buynow', obj)
+        try {
+            router.push(`/buy-now/${obj?.prouctId}`)
+
+        } catch (ex) {
+
+        } finally {
+
+        }
     }, [])
     useEffect(() => {
         getCartItems();

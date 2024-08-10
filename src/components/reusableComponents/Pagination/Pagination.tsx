@@ -1,8 +1,8 @@
 import React, { useRef } from 'react'
 
-const Pagination = ({ setPageNo, pageNo, totalPages }: any) => {
+const Pagination = ({ setPageNo, pageNo, totalPages }) => {
 
-    const gotoInputRef: any = useRef();
+    const gotoInputRef = useRef();
 
     const handlePagination = (action: String) => {
 

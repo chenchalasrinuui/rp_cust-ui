@@ -2,15 +2,15 @@ import React from 'react'
 type propsType = {
     lbl: String,
     isRequired: boolean,
-    name: any,
-    placeholder?: any
-    handleChange: (e: any) => void,
+    name,
+    placeholder?
+    handleChange: (e) => void,
     error: String,
-    options?: any,
-    values?: any,
-    lblColumns: any,
-    errorMsgColumns: any,
-    inputCtrlColumns: any,
+    options?,
+    values?,
+    lblColumns,
+    errorMsgColumns,
+    inputCtrlColumns,
     value: string
 }
 const Textarea = ({ value, lblColumns, errorMsgColumns, inputCtrlColumns, lbl, isRequired, name, placeholder, handleChange, error, options, values }: propsType) => {

@@ -1,5 +1,5 @@
 import { VENDOR_BASE_URL } from "./ajax";
-const regExpvaidations: any = {
+const regExpvaidations = {
     "REQUIRED": {
         pattern: /./,
         error: "Required filed!!!"
@@ -18,7 +18,7 @@ const regExpvaidations: any = {
     }
 }
 
-function validate(inputControlObj: any, inputControls: any) {
+function validate(inputControlObj, inputControls) {
     const { criteria, value, compare } = inputControlObj;
     inputControlObj.error = "";
     for (let text of criteria) {
@@ -39,8 +39,8 @@ function validate(inputControlObj: any, inputControls: any) {
                 }
                 break;
             case 'COMPARE':
-                const compareObj1 = inputControls.find((obj: any) => obj.name === compare[0])
-                const compareObj2 = inputControls.find((obj: any) => obj.name === compare[1])
+                const compareObj1 = inputControls.find((obj) => obj.name === compare[0])
+                const compareObj2 = inputControls.find((obj) => obj.name === compare[1])
                 compareObj1.error = ""
                 compareObj2.error = ""
                 if (compareObj1.value && compareObj2.value && compareObj1.value !== compareObj2.value) {
@@ -60,11 +60,11 @@ function validate(inputControlObj: any, inputControls: any) {
         }
     }
 }
-export function formLevelValidation(formControls: any, setFormControls: any) {
-    // const clonedFormControl: any = JSON.parse(JSON.stringify(formControls))
+export function formLevelValidation(formControls, setFormControls) {
+    // const clonedFormControl = JSON.parse(JSON.stringify(formControls))
     const clonedFormControl = Object.values(Object.assign({}, formControls));
-    const dataObj: any = {}
-    clonedFormControl.forEach((obj: any) => {
+    const dataObj = {}
+    clonedFormControl.forEach((obj) => {
         const { name, value, error } = obj;
         dataObj[name] = value;
         if (!value && !error) {
@@ -72,17 +72,17 @@ export function formLevelValidation(formControls: any, setFormControls: any) {
         }
     })
 
-    const isFormValid = !clonedFormControl.some((obj: any) => obj.error)
+    const isFormValid = !clonedFormControl.some((obj) => obj.error)
     setFormControls(clonedFormControl)
 
     return [isFormValid, dataObj]
 }
 
-export function fieldLevelValidation(eve: any, formControls: any, setFormControls: any) {
+export function fieldLevelValidation(eve, formControls, setFormControls) {
     const { name, value, type, files } = eve.target;
-    const clonedFormControl: any = JSON.parse(JSON.stringify(formControls))
+    const clonedFormControl = JSON.parse(JSON.stringify(formControls))
 
-    const inputControlObj: any = clonedFormControl.find((obj: any) => {
+    const inputControlObj = clonedFormControl.find((obj) => {
         return obj.name === name;
     })
     inputControlObj.error = "";
@@ -110,9 +110,9 @@ export function fieldLevelValidation(eve: any, formControls: any, setFormControl
     }
 }
 
-export function setDataToForm(formControls: any, setFormControls: any, data: any, properties: any) {
-    const clonedFormControl: any = JSON.parse(JSON.stringify(formControls))
-    clonedFormControl.forEach((obj: any) => {
+export function setDataToForm(formControls, setFormControls, data, properties) {
+    const clonedFormControl = JSON.parse(JSON.stringify(formControls))
+    clonedFormControl.forEach((obj) => {
         if (properties && properties[obj.name]) {
             for (const key in properties[obj.name]) {
                 obj[key] = properties[obj.name]?.[key]
@@ -128,9 +128,9 @@ export function setDataToForm(formControls: any, setFormControls: any, data: any
     setFormControls(clonedFormControl)
 }
 
-export function clearFormData(formControls: any, setFormControls: any, properties: any) {
-    const clonedFormControl: any = JSON.parse(JSON.stringify(formControls))
-    clonedFormControl.forEach((obj: any) => {
+export function clearFormData(formControls, setFormControls, properties) {
+    const clonedFormControl = JSON.parse(JSON.stringify(formControls))
+    clonedFormControl.forEach((obj) => {
         if (properties && properties[obj.name]) {
             for (const key in properties[obj.name]) {
                 obj[key] = properties[obj.name]?.[key]

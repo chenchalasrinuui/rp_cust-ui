@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './Modal.module.css'
-export const Modal = ({ modalActions }: any) => {
+export const Modal = ({ modalActions }) => {
     return (<>
         <div className={styles.modalMask}>
 
