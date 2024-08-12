@@ -61,7 +61,7 @@ export const Buynow = (props) => {
 
     const fnProceed = async () => {
         const options = {
-            key: 'rzp_test_x3tQeMYdYJLqWe', // Enter the Key ID generated from the Dashboard
+            key: '', // Enter the Key ID generated from the Dashboard
             amount: (product.cost + 40) * 100,
             currency: "INR",
             name: 'nit',
