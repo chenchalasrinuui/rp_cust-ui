@@ -27,12 +27,19 @@ export const Buynow = (props) => {
             dispatch({ type: "LOADER", payload: false })
         }
     }
-
     useEffect(() => {
         getProductDetails();
-    }, [])
+        const script = document.createElement('script');
+        script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+        script.async = true;
+        document.body.appendChild(script);
 
-    const fnProceed = async () => {
+        return () => {
+            document.body.removeChild(script);
+        };
+    }, []);
+
+    const handleSaveOrder = async () => {
         try {
             dispatch({ type: "LOADER", payload: true })
             const id = await AppCookie.getCookie("id")
@@ -50,6 +57,42 @@ export const Buynow = (props) => {
         } finally {
             dispatch({ type: "LOADER", payload: false })
         }
+    }
+
+    const fnProceed = async () => {
+        const options = {
+            key: 'rzp_test_x3tQeMYdYJLqWe', // Enter the Key ID generated from the Dashboard
+            amount: (product.cost + 40) * 100,
+            currency: "INR",
+            name: 'nit',
+            description: 'Purchase oirder',
+            handler: function (response) {
+                console.log(response)
+                handleSaveOrder();
+                alert('success')
+            },
+            modal: {
+                ondismiss: function () {
+                    alert('Transaction was not completed.');
+
+                },
+                onerror: function () {
+                    alert("error")
+                }
+            },
+            prefill: {
+                name: 'John Doe',
+                email: 'john.doe@example.com',
+                contact: '9999999999',
+            }
+        };
+
+        const rzp1 = new window.Razorpay(options);
+        rzp1.open();
+        rzp1.on('payment.failed', function (response) {
+            alert('Payment failed!');
+        });
+
     }
     return (
         <div className={styles.orderNow}>
