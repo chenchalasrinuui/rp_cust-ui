@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import config from './configuration.json';
 import Input from '../reusableComponents/inputControls/Input';
 import Button from '../reusableComponents/inputControls/Button';
@@ -8,17 +8,22 @@ import { AppCookie } from '@/services/cookies';
 import { useDispatch } from 'react-redux';
 import { Ajax } from '@/services/ajax';
 import { handleToaster } from '@/services/functions';
+import Image from 'next/image';
+import styles from './Profile.module.css'
+
 export const Profile = () => {
 
     const [formControls, setFormControls] = useState(config)
+    const [selProfilePic, setSelProfilePic] = useState('')
     const dispatch = useDispatch();
+    const fileUploadRef = useRef();
     const getUserInfo = async () => {
         try {
             dispatch({ type: "LOADER", payload: true })
             const id = await AppCookie.getCookie('id')
             const res = await Ajax.sendGetReq(`cust/getCustomerById?id=${id}`);
+            setSelProfilePic(res?.data?.image)
             setDataToForm(formControls, setFormControls, res?.data || {})
-            console.log(1111, res?.data);
         } catch (ex) {
             console.log("profile", ex)
         } finally {
@@ -41,9 +46,14 @@ export const Profile = () => {
             if (!isFormValid) return;
             dispatch({ type: "LOADER", payload: true })
             const id = await AppCookie.getCookie('id')
+            if (selProfilePic) {
+                dataObj.image = selProfilePic
+            }
             const res = await Ajax.sendPutReq(`cust/updateProfile?id=${id}`, { data: dataObj });
             const { acknowledged, modifiedCount } = res?.data;
             if (acknowledged && modifiedCount) {
+                dispatch({ type: "AUTH", payload: { image: dataObj.image } })
+
                 handleToaster(dispatch, "Profile Updated", "green")
             } else {
                 handleToaster(dispatch, "Not Updated", "red")
@@ -56,8 +66,26 @@ export const Profile = () => {
             dispatch({ type: "LOADER", payload: false })
         }
     }
+    const handleProfileImageClick = () => {
+        fileUploadRef.current.click();
+    }
+    const handleProfileImageChange = (eve) => {
+        const file = eve?.target?.files[0];
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+            setSelProfilePic(reader.result);
+        }
+
+
+    }
     return (
         <div className='container-fluid'>
+            <div className='text-center my-3'>
+                <Image className={styles.selProfile} onClick={handleProfileImageClick} name="profile" width={100} height={100} src={selProfilePic || "/profileupload.jpg"} />
+                <input onChange={handleProfileImageChange} ref={fileUploadRef} className={styles.profile} type="file" />
+            </div>
+
             <h3 className='text-center my-4'>Profile</h3>
             {
                 formControls.map((obj, ind) => {

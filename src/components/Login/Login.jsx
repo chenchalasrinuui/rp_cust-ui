@@ -20,14 +20,15 @@ export const Login = () => {
             if (!isFormValid) return;
             dispatch({ type: "LOADER", payload: true })
             const res = await Ajax.sendPostReq("cust/login", { data: dataObj });
-            const { token, _id, uid, count } = res?.data?.data
+            const { token, _id, uid, count, image } = res?.data?.data
             if (token) {
                 sessionStorage.setItem("token", token)
                 sessionStorage.cartCount = count;
                 AppCookie.setCookies("token", token);
                 AppCookie.setCookies("id", _id);
                 AppCookie.setCookies("uid", uid);
-                dispatch({ type: "AUTH", payload: { isLoggedIn: true, uid, cartCount: count } })
+                AppCookie.setCookies("image", image);
+                dispatch({ type: "AUTH", payload: { isLoggedIn: true, uid, cartCount: count, image } })
                 if (sessionStorage.pathName) {
                     router.push(sessionStorage.pathName)
                     sessionStorage.pathName = "";

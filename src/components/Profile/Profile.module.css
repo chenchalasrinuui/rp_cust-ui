@@ -1,0 +1,10 @@
+.profile {
+    width: 0;
+    opacity: 0;
+}
+
+.selProfile {
+    cursor: pointer;
+    border: 1px solid;
+    border-radius: 50px;
+}

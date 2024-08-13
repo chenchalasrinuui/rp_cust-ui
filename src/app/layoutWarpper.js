@@ -16,7 +16,8 @@ export const LayoutWarpper = ({ children }) => {
         (async () => {
             const isLoggedIn = await AppCookie.isLoggedIn();
             const uid = await AppCookie.getCookie("uid")
-            dispatch({ type: "AUTH", payload: { isLoggedIn, uid, cartCount: sessionStorage.cartCount } })
+            const image = await AppCookie.getCookie("image")
+            dispatch({ type: "AUTH", payload: { isLoggedIn, uid, cartCount: sessionStorage.cartCount, image } })
         })()
     }, [])
 

@@ -14,6 +14,7 @@ export const Header = () => {
     const isLoggedIn = useSelector((state) => state?.appReducer.isLoggedIn)
     const isShowMenu = useSelector((state) => state?.appReducer.isShowMenu)
     const uid = useSelector((state) => state?.appReducer.uid)
+    const image = useSelector((state) => state?.appReducer.image)
     const handleClick = () => {
         dispatch({ type: "MENU", payload: !isShowMenu })
     }
@@ -28,7 +29,7 @@ export const Header = () => {
                     Customer Portal
                     {isLoggedIn ? <>
                         <CartButton />
-                        <Avatar onClick={handleClick} sx={{ cursor: 'pointer', bgcolor: deepOrange[500], position: 'absolute', top: '40px', right: '20px' }}>{uid?.slice(0, 1)}</Avatar>
+                        <Avatar onClick={handleClick} sx={{ cursor: 'pointer', bgcolor: deepOrange[500], position: 'absolute', top: '40px', right: '20px' }}>{image ? <Image src={image} alt="My Logo" width={50} height={50} /> : uid?.slice(0, 1)}</Avatar>
                         {isShowMenu && <Menu />}
                     </>
                         :

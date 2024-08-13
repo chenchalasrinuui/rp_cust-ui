@@ -37,7 +37,7 @@ export const Order = () => {
         }
     }, [])
     return (
-        <div>
+        <div className='mb-5'>
             <h3 className='text-center'>Order Details</h3>
             <AppTable
                 hasImage={true}
