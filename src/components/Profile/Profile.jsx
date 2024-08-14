@@ -22,7 +22,6 @@ export const Profile = () => {
             dispatch({ type: "LOADER", payload: true })
             const id = await AppCookie.getCookie('id')
             const res = await Ajax.sendGetReq(`cust/getCustomerById?id=${id}`);
-            setSelProfilePic(res?.data?.image)
             setDataToForm(formControls, setFormControls, res?.data || {})
         } catch (ex) {
             console.log("profile", ex)
@@ -41,15 +40,24 @@ export const Profile = () => {
     }
 
     const handleClick = async () => {
+        debugger;
         try {
             const [isFormValid, dataObj] = formLevelValidation(formControls, setFormControls)
             if (!isFormValid) return;
             dispatch({ type: "LOADER", payload: true })
             const id = await AppCookie.getCookie('id')
+            dataObj.id = id;
             if (selProfilePic) {
                 dataObj.image = selProfilePic
+                dataObj.extension = selProfilePic?.name?.split('.')?.pop();
             }
-            const res = await Ajax.sendPutReq(`cust/updateProfile?id=${id}`, { data: dataObj });
+            var formData = new FormData();
+            for (let key in dataObj) {
+                formData.append(key, dataObj[key])
+
+            }
+
+            const res = await Ajax.sendPutReq(`cust/updateProfile`, formData);
             const { acknowledged, modifiedCount } = res?.data;
             if (acknowledged && modifiedCount) {
                 dispatch({ type: "AUTH", payload: { image: dataObj.image } })
@@ -71,13 +79,7 @@ export const Profile = () => {
     }
     const handleProfileImageChange = (eve) => {
         const file = eve?.target?.files[0];
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => {
-            setSelProfilePic(reader.result);
-        }
-
-
+        setSelProfilePic(file);
     }
     return (
         <div className='container-fluid'>

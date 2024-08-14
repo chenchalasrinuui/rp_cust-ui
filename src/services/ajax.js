@@ -11,7 +11,9 @@ axios.interceptors.request.use(config => {
     const authToken = sessionStorage.getItem("token")
     if (authToken) {
         config.headers.Authorization = ` ${authToken}`;
-
+        if (config?.url?.includes('/updateProfile')) {
+            config.headers["Content-Type"] = "multipart/form-data"
+        }
     }
 
     return config;
