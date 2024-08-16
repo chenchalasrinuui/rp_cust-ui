@@ -10,11 +10,15 @@ import { Ajax } from '@/services/ajax';
 import { handleToaster } from '@/services/functions';
 import Image from 'next/image';
 import styles from './Profile.module.css'
+import { BASE_URL } from '@/services/ajax';
+import { constants } from 'buffer';
 
 export const Profile = () => {
 
     const [formControls, setFormControls] = useState(config)
     const [selProfilePic, setSelProfilePic] = useState('')
+    const [userInfo, setUserInfo] = useState({})
+    const [image, setImage] = useState('')
     const dispatch = useDispatch();
     const fileUploadRef = useRef();
     const getUserInfo = async () => {
@@ -22,6 +26,7 @@ export const Profile = () => {
             dispatch({ type: "LOADER", payload: true })
             const id = await AppCookie.getCookie('id')
             const res = await Ajax.sendGetReq(`cust/getCustomerById?id=${id}`);
+            setUserInfo(res?.data)
             setDataToForm(formControls, setFormControls, res?.data || {})
         } catch (ex) {
             console.log("profile", ex)
@@ -40,7 +45,6 @@ export const Profile = () => {
     }
 
     const handleClick = async () => {
-        debugger;
         try {
             const [isFormValid, dataObj] = formLevelValidation(formControls, setFormControls)
             if (!isFormValid) return;
@@ -59,9 +63,8 @@ export const Profile = () => {
 
             const res = await Ajax.sendPutReq(`cust/updateProfile`, formData);
             const { acknowledged, modifiedCount } = res?.data;
-            if (acknowledged && modifiedCount) {
-                dispatch({ type: "AUTH", payload: { image: dataObj.image } })
-
+            if (acknowledged) {
+                //dispatch({ type: "AUTH", payload: { image: dataObj.profile } })
                 handleToaster(dispatch, "Profile Updated", "green")
             } else {
                 handleToaster(dispatch, "Not Updated", "red")
@@ -80,11 +83,19 @@ export const Profile = () => {
     const handleProfileImageChange = (eve) => {
         const file = eve?.target?.files[0];
         setSelProfilePic(file);
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+            setImage(reader.result)
+        }
+        reader.onerror = () => {
+            setImage("'")
+        }
     }
     return (
         <div className='container-fluid'>
             <div className='text-center my-3'>
-                <Image className={styles.selProfile} onClick={handleProfileImageClick} name="profile" width={100} height={100} src={selProfilePic || "/profileupload.jpg"} />
+                <Image className={styles.selProfile} onClick={handleProfileImageClick} name="profile" width={100} height={100} src={image || (userInfo?.profile ? `${BASE_URL}profilepics/${userInfo?.profile}?date=${new Date()?.getTime()}` : "/profileupload.jpg")} />
                 <input onChange={handleProfileImageChange} ref={fileUploadRef} className={styles.profile} type="file" />
             </div>
 

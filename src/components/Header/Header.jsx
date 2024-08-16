@@ -9,6 +9,7 @@ import Avatar from '@mui/material/Avatar';
 import { deepOrange, deepPurple } from '@mui/material/colors';
 import { Menu } from '../Menu/Menu';
 import { CartButton } from '../CartButton/CartButton';
+import { BASE_URL } from '@/services/ajax';
 export const Header = () => {
     const dispatch = useDispatch();
     const isLoggedIn = useSelector((state) => state?.appReducer.isLoggedIn)
@@ -29,7 +30,7 @@ export const Header = () => {
                     Customer Portal
                     {isLoggedIn ? <>
                         <CartButton />
-                        <Avatar onClick={handleClick} sx={{ cursor: 'pointer', bgcolor: deepOrange[500], position: 'absolute', top: '40px', right: '20px' }}>{image ? <Image src={image} alt="My Logo" width={50} height={50} /> : uid?.slice(0, 1)}</Avatar>
+                        <Avatar onClick={handleClick} sx={{ cursor: 'pointer', bgcolor: deepOrange[500], position: 'absolute', top: '40px', right: '20px' }}>{image ? <Image src={`${BASE_URL}profilepics/${image}?time=${new Date()?.getTime()}`} alt="My Logo" width={50} height={50} /> : uid?.slice(0, 1)}</Avatar>
                         {isShowMenu && <Menu />}
                     </>
                         :

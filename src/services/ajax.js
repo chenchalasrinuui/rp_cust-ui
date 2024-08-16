@@ -1,6 +1,6 @@
 import axios from "axios";
 import { AppCookie } from "./cookies";
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
+export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 export const VENDOR_BASE_URL = process.env.NEXT_PUBLIC_VENDOR_BASE_URL
 
 
